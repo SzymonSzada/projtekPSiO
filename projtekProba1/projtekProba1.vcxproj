@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClCompile Include="Gra.cpp" />
     <ClCompile Include="Gracz.cpp" />
+    <ClCompile Include="GreenCar.cpp" />
     <ClCompile Include="Pojazd.cpp" />
     <ClCompile Include="projtekProba1.cpp" />
     <ClCompile Include="RedCar.cpp" />
@@ -151,6 +152,7 @@
   <ItemGroup>
     <ClInclude Include="Gra.h" />
     <ClInclude Include="Gracz.h" />
+    <ClInclude Include="GreenCar.h" />
     <ClInclude Include="Pojazd.h" />
     <ClInclude Include="RedCar.h" />
   </ItemGroup>

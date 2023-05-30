@@ -12,6 +12,24 @@ Pojazd::Pojazd(const std::string file)
 	setTexture(texture); //jak bede chcial uzyc to dodac dziedziczenie ze sprite w pojazd.h
 }
 
+void Pojazd::moveDown(float dt)
+{
+    float velocity = 100.0f; // Przyk³adowa wartoœæ prêdkoœci poruszania siê w dó³
+    sf::Vector2f position = getPosition();
+    float deltaY = velocity * dt;
+    position.y += deltaY;
+    setPosition(position);
+}
+void Pojazd::moveUp(float dt)
+{
+    
+    float velocity = -100.0f; // Przyk³adowa wartoœæ prêdkoœci poruszania siê w górê
+    sf::Vector2f position = getPosition();
+    float deltaY = velocity * dt;
+    position.y += deltaY;
+    setPosition(position);
+    
+}
 void Pojazd::updateAnimation()
 {
     float elapsedTime = animationClock.getElapsedTime().asSeconds();

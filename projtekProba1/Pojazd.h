@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 class Pojazd : public sf::Sprite
 {
+
 protected:
 	sf::Texture texture;
 	sf::Clock animationClock; // zegar do "zmiany animacji"
@@ -13,6 +14,8 @@ protected:
 	float ms;
 	int animationCounter = 0;
 public:
+	void moveDown(float dt); // Metoda do poruszania siê w dó³
+	void moveUp(float dt);	// Metoda do poruszania siê w góre
 	Pojazd();
 	Pojazd(const std::string file);
 	 ~Pojazd() {};

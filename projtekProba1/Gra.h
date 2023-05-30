@@ -9,6 +9,7 @@
 #include <SFML/Network.hpp>
 #include "RedCar.h"
 #include "Gracz.h"
+#include "GreenCar.h"
 #include <vector>
 
 class Gra
@@ -24,9 +25,12 @@ private:
 	sf::RenderWindow* window;
 	sf::VideoMode videoMode;
 	sf::Event ev;
+	//kontener obiektow
+	std::vector<Pojazd*> pojazdy; // Kontener przechowuj¹cy obiekty Pojazd
 	//czerwone auta
 	RedCar* redcar;
-	std::vector<RedCar*> redcars;
+	//zieleone auta
+	GreenCar* greencar;
 	//gracz
 	Gracz* gracz;
 	
@@ -34,6 +38,7 @@ private:
 	void cratePlayer();
 	void stworzTlo();
 	void crateRedCar();
+	void crateGreenCar();
 	void pollEvents();
 	void initVariables();
 	void initWindow();

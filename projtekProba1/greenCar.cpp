@@ -1,25 +1,23 @@
-#include "RedCar.h"
-#include "Pojazd.h"
-#include <SFML/Graphics/Rect.hpp>
 
-int RedCar::getNumFrames()
+#include "GreenCar.h"
+
+
+int GreenCar::getNumFrames()
 {
-	return 4;
+    return 4;
 }
 
-int RedCar::getFrameWidth()
+int GreenCar::getFrameWidth()
 {
-	return 29;
+    return 29;
 }
 
-int RedCar::getFrameHeight()
+int GreenCar::getFrameHeight()
 {
-	return 48;
+    return 48;
 }
 
-
-
-void RedCar::setAnimation()
+void GreenCar::setAnimation()
 {
     int frameWidth = getFrameWidth();   // Pobranie szerokoœci klatki
     int numFrames = getNumFrames();     // Pobranie liczby klatek
