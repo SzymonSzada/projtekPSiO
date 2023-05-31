@@ -24,24 +24,44 @@ void Gracz::move(float dt)
 
     sf::Vector2f movement(0.0f, 0.0f);
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
         movement.x -= speed;
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
         movement.y -= speed;
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
         movement.y += speed;
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
         movement.x += speed;
     }
 
+    // Sprawdü, czy nowa pozycja gracza wychodzi poza granice
     sf::Vector2f newPosition = getPosition() + movement * dt;
+
+    if (newPosition.x < boundary.left)
+    {
+        newPosition.x = boundary.left;
+    }
+    else if (newPosition.x + getFrameWidth() > boundary.left + boundary.width)
+    {
+        newPosition.x = boundary.left + boundary.width - getFrameWidth();
+    }
+
+    if (newPosition.y < boundary.top)
+    {
+        newPosition.y = boundary.top;
+    }
+    else if (newPosition.y + getFrameHeight() > boundary.top + boundary.height)
+    {
+        newPosition.y = boundary.top + boundary.height - getFrameHeight();
+    }
+
     setPosition(newPosition);
 }
 

@@ -11,7 +11,31 @@ Pojazd::Pojazd(const std::string file)
 	texture.loadFromFile(file);
 	setTexture(texture); //jak bede chcial uzyc to dodac dziedziczenie ze sprite w pojazd.h
 }
+//ustawianie granic
+void Pojazd::setBounds(float left, float top, float width, float height)
+{
+    boundary.left = left;
+    boundary.top = top;
+    boundary.width = width;
+    boundary.height = height;
+}
 
+bool Pojazd::checkCollision(const Pojazd& other) const
+{
+    // SprawdŸ kolizjê na podstawie granic obiektów
+    if (boundary.left < other.boundary.left + other.boundary.width ||
+        boundary.left + boundary.width > other.boundary.left ||
+        boundary.top < other.boundary.top + other.boundary.height ||
+        boundary.top + boundary.height > other.boundary.top) {
+        // Kolizja wystêpuje
+        return true;
+    }
+    // Brak kolizji
+    return false;
+}
+
+
+//poruszanie obiektow w dó³
 void Pojazd::moveDown(float dt)
 {
     float velocity = 100.0f; // Przyk³adowa wartoœæ prêdkoœci poruszania siê w dó³
@@ -20,6 +44,7 @@ void Pojazd::moveDown(float dt)
     position.y += deltaY;
     setPosition(position);
 }
+//poruszanie obiektow w góre
 void Pojazd::moveUp(float dt)
 {
     
@@ -30,6 +55,7 @@ void Pojazd::moveUp(float dt)
     setPosition(position);
     
 }
+//zmiana animacji co okreslony czas
 void Pojazd::updateAnimation()
 {
     float elapsedTime = animationClock.getElapsedTime().asSeconds();

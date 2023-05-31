@@ -9,11 +9,13 @@ protected:
 	sf::Texture texture;
 	sf::Clock animationClock; // zegar do "zmiany animacji"
 	float animationTimer;	  // czas trwania jednej klatki
+	sf::FloatRect boundary;	  // zmienna do ustawiania granic
 	int currentFrame;
-	//int licznik = 0;
 	float ms;
 	int animationCounter = 0;
 public:
+	void setBounds(float left, float top, float width, float height);//ustawianie granic
+	bool checkCollision(const Pojazd& other) const;
 	void moveDown(float dt); // Metoda do poruszania siê w dó³
 	void moveUp(float dt);	// Metoda do poruszania siê w góre
 	Pojazd();

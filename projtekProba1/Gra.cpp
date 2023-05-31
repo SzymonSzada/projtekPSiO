@@ -48,6 +48,8 @@ void Gra::cratePlayer()
 {
 	this->gracz = new Gracz();
 	this->pojazdy.push_back(this->gracz); // Dodaj obiekt Gracz do kontenera
+	//ustawiam granice?
+	this->gracz->setBounds(134.0f, 0.0f, 504.0f, 537.0f);
 	//ustawiam pozycje
 	this->gracz->setPosition(368.0f, 450.0f);
 	
@@ -84,13 +86,9 @@ void Gra::crateRedCar()
 
 		RedCar* redcar = new RedCar();
 		redcar->setPosition(x, y);
+		//granice do kolizji z obiektem redCar
+		redcar->setBounds(0.0f, 650.0f, 840.0f, 0.0f);
 		this->pojazdy.push_back(redcar); // Dodaj obiekt RedCar do kontenera
-		//chcia³em opoznic resp drugiego redCar aby porusza³y sie w wiekszej odleglosci y od siebie, ale to tylko opoznia otwarcie okan
-		/* 
-		// Losowanie czasu opóŸnienia w przedziale (0.3 - 3 sekundy)
-		float delay = 0.3f + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (3.0f - 0.3f)));
-		sf::sleep(sf::seconds(delay));
-		*/
 	}
 }
 

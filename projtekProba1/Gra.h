@@ -35,6 +35,7 @@ private:
 	Gracz* gracz;
 	
 	//metody prywatne
+	
 	void cratePlayer();
 	void stworzTlo();
 	void crateRedCar();
