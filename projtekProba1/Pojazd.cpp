@@ -72,5 +72,19 @@ void Pojazd::updateAnimation()
         animationClock.restart();
     }
 }
+bool Pojazd::czyWychodziPozaEkran(const sf::RenderWindow& window) const
+{
+   // Sprawdzenie, czy obiekt wychodzi poza obrys ekranu
+    if (boundary.left > window.getSize().x ||
+        boundary.top > window.getSize().y ||
+        boundary.left + boundary.width < 0 ||
+        boundary.top + boundary.height < 0)
+    {
+        return true; // Obiekt wychodzi poza ekran
+    }
+
+    return false; // Obiekt znajduje siê w granicach ekranu
+}
+
 
 

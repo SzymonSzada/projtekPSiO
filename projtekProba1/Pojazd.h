@@ -26,7 +26,6 @@ public:
 	 virtual int getNumFrames() = 0;
 	 virtual int getFrameWidth() = 0;
 	 virtual int getFrameHeight() = 0;
-	
-
+	 virtual bool czyWychodziPozaEkran(const sf::RenderWindow& window) const;
 };
 

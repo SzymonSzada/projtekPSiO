@@ -46,6 +46,7 @@ const bool Gra::running() const
 
 void Gra::cratePlayer()
 {
+	std::cout << "Tworzenie nowego obiektu RedCar" << std::endl;
 	this->gracz = new Gracz();
 	this->pojazdy.push_back(this->gracz); // Dodaj obiekt Gracz do kontenera
 	//ustawiam granice?
@@ -75,9 +76,9 @@ void Gra::crateRedCar()
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 	//zmienne opisujace pole generowania obiekow
 	float x1 = 163.4f; // lewy x
-	float y1 = -700.0f; // górny y
+	float y1 = 100.0f; // górny y //-700 by³o 
 	float x2 = 340.85f; // prawy x
-	float y2 = 30.0f; // dolny y
+	float y2 = 130.0f; // dolny y //30 by³o
 	for (int i = 0; i < 2; i++)
 	{
 		// Losuj pozycjê dla RedCar w obszarze (x1, y1) - (x2, y2)
@@ -110,12 +111,7 @@ void Gra::crateGreenCar()
 		GreenCar* greencar = new GreenCar();
 		greencar->setPosition(x, y);
 		this->pojazdy.push_back(greencar); // Dodaj obiekt GreenCar do kontenera
-		//chcia³em opoznic resp drugiego greenCar aby porusza³y sie w wiekszej odleglosci y od siebie, ale to tylko opoznia otwarcie okan
-		/*
-		// Losowanie czasu opóŸnienia w przedziale (0.3 - 3 sekundy)
-		float delay = 0.3f + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (3.0f - 0.3f)));
-		sf::sleep(sf::seconds(delay));
-		*/
+		
 	}
 }
 
@@ -138,30 +134,54 @@ void Gra::pollEvents()
 		}
 	}
 }
+
 void Gra::update()
 {
 	float dt = clock.restart().asSeconds(); // Pobierz czas od ostatniej aktualizacji
 	this->pollEvents();
-	//aktualizacja animacji obiektow z kontenera
-	for (auto pojazd : pojazdy)
+
+	// Aktualizacja animacji obiektów z kontenera
+	for (auto it = pojazdy.begin(); it != pojazdy.end();)
 	{
+		auto pojazd = *it;
 		pojazd->setAnimation();
-		pojazd->setScale(2.0f, 2.0f); //zmiana rozmiaru textury
-		//poruszanie obiektow redCar w dó³
+		pojazd->setScale(2.0f, 2.0f); // Zmiana rozmiaru textury
+
+		// Poruszanie obiektów RedCar w dó³
 		if (RedCar* redcar = dynamic_cast<RedCar*>(pojazd))
 		{
-			redcar->moveDown(dt); 
+			redcar->moveDown(dt);
+			float granicaGora = 600.0f; // Górna granica
+			float granicaDol = 700.0f; // Dolna granica
+
+
+			if (redcar->getPosition().y > granicaDol)
+			{
+				delete redcar;
+				it = pojazdy.erase(it);
+				this->crateRedCar(); // Tworzenie nowego obiektu RedCar
+				continue; // PrzejdŸ do kolejnej iteracji pêtli
+			}
 		}
-		//poruszanie obiekow greenCar w góre
-		if (GreenCar* greencar = dynamic_cast<GreenCar*>(pojazd))
+
+		// Poruszanie obiektów GreenCar w górê
+		else if (GreenCar* greencar = dynamic_cast<GreenCar*>(pojazd))
 		{
 			greencar->moveUp(dt);
 		}
-	
+
+		++it;
 	}
-	//poruszanie gracza
+
+	// Poruszanie gracza
 	this->gracz->move(dt);
+	this->gracz->setScale(1.5f, 1.5f); // Zmiana skali gracza
 }
+
+
+
+
+
 void Gra::render()
 {
 	this->window->clear(sf::Color::Black);

@@ -40,7 +40,7 @@ void Gracz::move(float dt)
     {
         movement.x += speed;
     }
-
+    
     // SprawdŸ, czy nowa pozycja gracza wychodzi poza granice
     sf::Vector2f newPosition = getPosition() + movement * dt;
 
@@ -64,6 +64,7 @@ void Gracz::move(float dt)
 
     setPosition(newPosition);
 }
+    
 
 void Gracz::setAnimation()
 {
@@ -78,4 +79,8 @@ void Gracz::setAnimation()
 
     // Ustawianie odpowiedniej tekstury reprezentuj¹cej aktualn¹ klatkê
     setTextureRect(sf::IntRect(frameWidth * currentFrameIndex, 0, frameWidth, getFrameHeight()));
+}
+sf::FloatRect Gracz::getBoundary() const
+{
+    return boundary;
 }
