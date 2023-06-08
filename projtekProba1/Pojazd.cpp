@@ -10,7 +10,7 @@ Pojazd::Pojazd()
 Pojazd::Pojazd(const std::string file)
 {
 	texture.loadFromFile(file);
-	setTexture(texture); //jak bede chcial uzyc to dodac dziedziczenie ze sprite w pojazd.h
+	setTexture(texture); 
 }
 //ustawianie granic
 void Pojazd::setBounds(float left, float top, float width, float height)
@@ -34,6 +34,8 @@ bool Pojazd::checkCollision(const Pojazd& other) const
     // Brak kolizji
     return false;
 }
+
+
 
 
 //poruszanie obiektow w dó³
@@ -76,10 +78,6 @@ void Pojazd::updateAnimation()
 
 
 
-sf::Vector2f Pojazd::getLewyDolny()
-{
-    return getPosition() + sf::Vector2f(0,48);
-}
 
 bool Pojazd::stykaSieZ(Pojazd* pojazd)
 {   
@@ -93,10 +91,15 @@ bool Pojazd::stykaSieZ(Pojazd* pojazd)
     return false;
 }
 
+sf::Vector2f Pojazd::getLewyDolny()
+{
+    return getPosition() + sf::Vector2f(0,48);
+}
 sf::Vector2f Pojazd::getPrawyGorny()
 {
     return getPosition() + sf::Vector2f(28,0);
 }
+
 
 
 

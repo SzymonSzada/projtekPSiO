@@ -67,6 +67,9 @@ void Gracz::move(float dt)
 }
     
 
+
+
+
 void Gracz::setAnimation()
 {
     int frameWidth = getFrameWidth();   // Pobranie szerokoœci klatki
@@ -85,3 +88,5 @@ sf::FloatRect Gracz::getBoundary() const
 {
     return boundary;
 }
+
+

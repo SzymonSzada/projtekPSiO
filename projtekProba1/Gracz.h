@@ -7,6 +7,7 @@ public:
 	
 	float dt;
 	void move(float dt);
+	
 	Gracz() : Pojazd("graczAnimacja.png") { animationTimer = 0.6f; };
 	void setAnimation() override;
 	sf::FloatRect getBoundary() const;

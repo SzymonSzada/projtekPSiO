@@ -26,7 +26,10 @@ bool RedCar::opuszczenieMapy()
     return false;
 }
 
-
+sf::FloatRect RedCar::getBoundary() const
+{
+    return boundary;
+}
 
 void RedCar::setAnimation()
 {

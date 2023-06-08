@@ -2,6 +2,10 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
+#include "RedCar.h"
+#include "GreenCar.h"
+#include "bonusCoin.h"
+
 //metody prywatne
 void Gra::initVariables()
 {
@@ -125,7 +129,7 @@ void Gra::createGreenCar()
 	float x1 = 424.0f; // lewy x
 	float y1 = 580.0f; // górny y
 	float x2 = 620.85f; // prawy x
-	float y2 = 600.0f; // dolny y
+	float y2 = 866.0f; // dolny y
 	
 	bool f = true;
 	GreenCar* greencar = new GreenCar();
@@ -201,6 +205,29 @@ void Gra::pollEvents()
 	}
 }
 
+void Gra::sprawdzKolizje()
+{
+	// Pobierz granice kolizji gracza
+	sf::FloatRect graczBounds = gracz->getBoundary();
+
+	// Iteruj przez wszystkie obiekty RedCar i sprawdŸ kolizje z graczem
+	for (auto& pojazd : pojazdy)
+	{
+		// Pobierz granice kolizji RedCar
+		sf::FloatRect redcarBounds = redcar->getBoundary();
+
+		// SprawdŸ kolizjê miêdzy graczem a RedCarem
+		if (graczBounds.intersects(redcarBounds))
+		{
+			std::cout << "kolizja redcar gracz" << std::endl;
+
+			// Mo¿esz równie¿ przerwaæ pêtlê, jeœli interesuje Ciê tylko pierwsza kolizja
+			break;
+		}
+	}
+}
+
+
 void Gra::update()
 {
 	float dt = clock.restart().asSeconds(); // Pobierz czas od ostatniej aktualizacji
@@ -212,8 +239,11 @@ void Gra::update()
 		pojazd->setAnimation();
 		pojazd->setScale(2.0f, 2.0f); //zmiana rozmiaru textury
 		//poruszanie obiektow redCar w dó³
+		// Aktualizuj granice kolizji
+		
 		if (RedCar* redcar = dynamic_cast<RedCar*>(pojazd))
 		{
+			
 			redcar->moveDown(dt);
 			if (redcar->opuszczenieMapy())
 			{
@@ -250,10 +280,13 @@ void Gra::update()
 		}
 
 	}
+	
 	//poruszanie gracza
 	this->gracz->move(dt);
 	this->gracz->setScale(1.5f, 1.5f); // Zmiana skali gracza
-	
+
+	// Sprawdzanie kolizji
+	sprawdzKolizje();
 }
 
 

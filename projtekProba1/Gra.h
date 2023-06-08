@@ -12,6 +12,10 @@
 #include "GreenCar.h"
 #include "bonusCoin.h"
 #include <vector>
+class RedCar;
+class GreenCar;
+class bonusCoin;
+
 class Gra
 {
 private:
@@ -44,13 +48,14 @@ private:
 	void createGreenCar();
 	void createBonusCoin();
 	void pollEvents();
+	void sprawdzKolizje();
 	void initVariables();
 	void initWindow();
 public:
 	 
 	Gra();
 	virtual ~Gra();
-	//Accessors
+	//Accessors`
 	const bool running() const;
 	
 

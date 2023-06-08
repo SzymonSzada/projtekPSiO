@@ -13,8 +13,7 @@ protected:
 	int currentFrame;
 	float ms;
 	int animationCounter = 0;
-	//float lewyDolny;
-	//float prawyGorny;
+	
 public:
 	void setBounds(float left, float top, float width, float height);//ustawianie granic
 	bool checkCollision(const Pojazd& other) const; //kolizje z innymi pojazdami 
@@ -28,7 +27,6 @@ public:
 	 virtual int getNumFrames() = 0;
 	 virtual int getFrameWidth() = 0;
 	 virtual int getFrameHeight() = 0;
-	 //bool stykaSieZ(Pojazd pojazd);
 	 bool stykaSieZ(Pojazd* pojazd);
 	 sf::Vector2f getLewyDolny();
 	 sf::Vector2f getPrawyGorny();
