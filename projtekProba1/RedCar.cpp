@@ -17,6 +17,15 @@ int RedCar::getFrameHeight()
 	return 48;
 }
 
+bool RedCar::opuszczenieMapy()
+{
+    if(getLewyDolny().y >= 650)
+    {
+        return true;
+    }
+    return false;
+}
+
 
 
 void RedCar::setAnimation()
@@ -32,14 +41,4 @@ void RedCar::setAnimation()
 
     // Ustawianie odpowiedniej tekstury reprezentuj¹cej aktualn¹ klatkê
     setTextureRect(sf::IntRect(frameWidth * currentFrameIndex, 0, frameWidth, getFrameHeight()));
-}
-bool RedCar::czyWychodziPozaEkran(const sf::RenderWindow& window) const
-{
-    // Sprawdzenie, czy obiekt wychodzi poza obrys ekranu (tylko dolna granica)
-    if (boundary.top + boundary.height < 0)
-    {
-        return true; // Obiekt wychodzi poza doln¹ granicê ekranu
-    }
-   
-    return false; // Obiekt znajduje siê w granicach ekranu
 }

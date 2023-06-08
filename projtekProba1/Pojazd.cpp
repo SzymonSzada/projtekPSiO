@@ -1,6 +1,7 @@
 #include "Pojazd.h"
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
+#include <iostream>
 Pojazd::Pojazd()
 {
     animationTimer = 0.0f;
@@ -72,19 +73,32 @@ void Pojazd::updateAnimation()
         animationClock.restart();
     }
 }
-bool Pojazd::czyWychodziPozaEkran(const sf::RenderWindow& window) const
-{
-   // Sprawdzenie, czy obiekt wychodzi poza obrys ekranu
-    if (boundary.left > window.getSize().x ||
-        boundary.top > window.getSize().y ||
-        boundary.left + boundary.width < 0 ||
-        boundary.top + boundary.height < 0)
-    {
-        return true; // Obiekt wychodzi poza ekran
-    }
 
-    return false; // Obiekt znajduje siê w granicach ekranu
+
+
+sf::Vector2f Pojazd::getLewyDolny()
+{
+    return getPosition() + sf::Vector2f(0,48);
 }
+
+bool Pojazd::stykaSieZ(Pojazd* pojazd)
+{   
+    //std::cout << pojazd->getPrawyGorny().x << " - " << getLewyDolny().x << std::endl;;
+    
+    if (!(getLewyDolny().x > pojazd->getPrawyGorny().x || getLewyDolny().y < pojazd->getPrawyGorny().y || getPrawyGorny().x < pojazd->getLewyDolny().x || getPrawyGorny().y > pojazd->getLewyDolny().y))
+    {
+        return true;
+
+    }
+    return false;
+}
+
+sf::Vector2f Pojazd::getPrawyGorny()
+{
+    return getPosition() + sf::Vector2f(28,0);
+}
+
+
 
 
 

@@ -4,6 +4,7 @@ class Gracz : public Pojazd
 {
 protected:
 public:
+	
 	float dt;
 	void move(float dt);
 	Gracz() : Pojazd("graczAnimacja.png") { animationTimer = 0.6f; };
@@ -12,6 +13,7 @@ public:
 	int getNumFrames() override;
 	int getFrameWidth() override;
 	int getFrameHeight() override;
+	
     
 };
 

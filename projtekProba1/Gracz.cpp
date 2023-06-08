@@ -1,5 +1,5 @@
 #include "Gracz.h"
-
+#include "Pojazd.h"
 
 
 
@@ -17,6 +17,7 @@ int Gracz::getFrameHeight()
 {
 	return 62;
 }
+
 
 void Gracz::move(float dt)
 {

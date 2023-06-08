@@ -16,7 +16,7 @@ public:
 	int getNumFrames() override;
 	int getFrameWidth() override;
 	int getFrameHeight() override;
-	bool czyWychodziPozaEkran(const sf::RenderWindow& window) const override;
+	bool opuszczenieMapy();
 
     
 };

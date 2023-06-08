@@ -10,8 +10,8 @@
 #include "RedCar.h"
 #include "Gracz.h"
 #include "GreenCar.h"
+#include "bonusCoin.h"
 #include <vector>
-
 class Gra
 {
 private:
@@ -33,21 +33,26 @@ private:
 	GreenCar* greencar;
 	//gracz
 	Gracz* gracz;
+	//bonusCoin
+	bonusCoin* bonuscoin;
 	
 	//metody prywatne
 	
-	void cratePlayer();
+	void createPlayer();
 	void stworzTlo();
-	void crateRedCar();
-	void crateGreenCar();
+	void createRedCar();
+	void createGreenCar();
+	void createBonusCoin();
 	void pollEvents();
 	void initVariables();
 	void initWindow();
 public:
+	 
 	Gra();
 	virtual ~Gra();
 	//Accessors
 	const bool running() const;
+	
 
 	//metody
 	void update();

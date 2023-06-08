@@ -142,6 +142,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bonusBlue.cpp" />
+    <ClCompile Include="bonusCoin.cpp" />
     <ClCompile Include="Gra.cpp" />
     <ClCompile Include="Gracz.cpp" />
     <ClCompile Include="GreenCar.cpp" />
@@ -150,6 +152,8 @@
     <ClCompile Include="RedCar.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bonusBlue.h" />
+    <ClInclude Include="bonusCoin.h" />
     <ClInclude Include="Gra.h" />
     <ClInclude Include="Gracz.h" />
     <ClInclude Include="GreenCar.h" />

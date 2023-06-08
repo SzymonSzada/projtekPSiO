@@ -1,32 +1,22 @@
-
-#include "GreenCar.h"
-
-
-int GreenCar::getNumFrames()
+#include "bonusCoin.h"
+int bonusCoin::getNumFrames()
 {
-    return 4;
+    return 6;
 }
 
-int GreenCar::getFrameWidth()
+int bonusCoin::getFrameWidth()
 {
-    return 29;
+    return 38;
 }
 
-int GreenCar::getFrameHeight()
+int bonusCoin::getFrameHeight()
 {
-    return 48;
+    return 37;
 }
 
-bool GreenCar::opuszczenieMapy()
-{
-    if (getPrawyGorny().y <= -48)
-    {
-        return true;
-    }
-    return false;
-}
 
-void GreenCar::setAnimation()
+
+void bonusCoin::setAnimation()
 {
     int frameWidth = getFrameWidth();   // Pobranie szerokoœci klatki
     int numFrames = getNumFrames();     // Pobranie liczby klatek

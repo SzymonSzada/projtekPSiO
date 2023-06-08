@@ -21,9 +21,12 @@ Gra::Gra()
 	this->initVariables();
 	this->initWindow();
 	this->stworzTlo();
-	this->cratePlayer();
-	this->crateRedCar();
-	this->crateGreenCar();
+	this->createPlayer();
+	this->createRedCar();
+	this->createRedCar();
+	this->createGreenCar();
+	this->createGreenCar();
+	this->createBonusCoin();
 }
 
 Gra::~Gra()
@@ -42,9 +45,11 @@ const bool Gra::running() const
 	return this->window->isOpen();
 }
 
+
+
 //metody publiczne
 
-void Gra::cratePlayer()
+void Gra::createPlayer()
 {
 	std::cout << "Tworzenie nowego obiektu RedCar" << std::endl;
 	this->gracz = new Gracz();
@@ -70,30 +75,49 @@ void Gra::stworzTlo()
 	this->spriteTlo.scale(0.95f, 0.95f);
 }
 
-void Gra::crateRedCar()
+void Gra::createRedCar()
 {
 	// Zainicjalizuj generator liczb losowych
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 	//zmienne opisujace pole generowania obiekow
 	float x1 = 163.4f; // lewy x
-	float y1 = 100.0f; // górny y //-700 by³o 
+	float y1 = -700.0f; // górny y //-700 by³o 
 	float x2 = 340.85f; // prawy x
-	float y2 = 130.0f; // dolny y //30 by³o
-	for (int i = 0; i < 2; i++)
-	{
-		// Losuj pozycjê dla RedCar w obszarze (x1, y1) - (x2, y2)
-		float x = x1 + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (x2 - x1)));
-		float y = y1 + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (y2 - y1)));
-
+	float y2 = 30.0f; // dolny y //30 by³o
+		bool f = true;
 		RedCar* redcar = new RedCar();
+		redcar->setBounds(0.0f, 650.0f, 840.0f, 0.0f);
+		float x, y;
+		while (f) {
+		// Losuj pozycjê dla RedCar w obszarze (x1, y1) - (x2, y2)
+		x = x1 + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (x2 - x1)));
+		y = y1 + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (y2 - y1)));
 		redcar->setPosition(x, y);
 		//granice do kolizji z obiektem redCar
-		redcar->setBounds(0.0f, 650.0f, 840.0f, 0.0f);
+		//std::cout << x << std::endl;
+		int i = 0;
+			for ( ; i < pojazdy.size(); i++) {
+			
+			if (!redcar->stykaSieZ(pojazdy[i]))
+			{
+				continue;
+			}
+			else
+			{
+				break;
+			}
+		}
+			if (i == pojazdy.size())
+			{
+				f = false;
+			}
+		}
+		
 		this->pojazdy.push_back(redcar); // Dodaj obiekt RedCar do kontenera
-	}
+	
 }
 
-void Gra::crateGreenCar()
+void Gra::createGreenCar()
 {
 	// Zainicjalizuj generator liczb losowych
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
@@ -102,16 +126,58 @@ void Gra::crateGreenCar()
 	float y1 = 580.0f; // górny y
 	float x2 = 620.85f; // prawy x
 	float y2 = 600.0f; // dolny y
+	
+	bool f = true;
+	GreenCar* greencar = new GreenCar();
+	greencar->setBounds(0.0f, 650.0f, 840.0f, 0.0f);
+	float x, y;
+	while (f) {
+		// Losuj pozycjê dla RedCar w obszarze (x1, y1) - (x2, y2)
+		x = x1 + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (x2 - x1)));
+		y = y1 + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (y2 - y1)));
+		greencar->setPosition(x, y);
+		//granice do kolizji z obiektem redCar
+		//std::cout << x << std::endl;
+		int i = 0;
+		for (; i < pojazdy.size(); i++) {
+
+			if (!greencar->stykaSieZ(pojazdy[i]))
+			{
+				continue;
+			}
+			else
+			{
+				break;
+			}
+		}
+		if (i == pojazdy.size())
+		{
+			f = false;
+		}
+	}
+
+	this->pojazdy.push_back(greencar); // Dodaj obiekt RedCar do kontenera
+}
+
+void Gra::createBonusCoin()
+{
+	// Zainicjalizuj generator liczb losowych
+	std::srand(static_cast<unsigned int>(std::time(nullptr)));
+	//zmienne opisujace pole generowania obiekow
+	float x1 = 134.0f; // lewy x
+	float y1 = 0.0f; // górny y
+	float x2 = 504.0f; // prawy x
+	float y2 = 537.0f; // dolny y
 	for (int i = 0; i < 2; i++)
 	{
-		// Losuj pozycjê dla RedCar w obszarze (x1, y1) - (x2, y2)
+		// Losuj pozycjê dla GreenCar w obszarze (x1, y1) - (x2, y2)
 		float x = x1 + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (x2 - x1)));
 		float y = y1 + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (y2 - y1)));
 
-		GreenCar* greencar = new GreenCar();
-		greencar->setPosition(x, y);
-		this->pojazdy.push_back(greencar); // Dodaj obiekt GreenCar do kontenera
-		
+		bonusCoin* bonuscoin = new bonusCoin();
+		bonuscoin->setPosition(x, y);
+		this->pojazdy.push_back(bonuscoin); // Dodaj obiekt GreenCar do kontenera
+
 	}
 }
 
@@ -139,43 +205,55 @@ void Gra::update()
 {
 	float dt = clock.restart().asSeconds(); // Pobierz czas od ostatniej aktualizacji
 	this->pollEvents();
-
-	// Aktualizacja animacji obiektów z kontenera
-	for (auto it = pojazdy.begin(); it != pojazdy.end();)
+	//aktualizacja animacji obiektow z kontenera
+	for (int j = 0; j < pojazdy.size();j++)
 	{
-		auto pojazd = *it;
+		auto pojazd = pojazdy[j];
 		pojazd->setAnimation();
-		pojazd->setScale(2.0f, 2.0f); // Zmiana rozmiaru textury
-
-		// Poruszanie obiektów RedCar w dó³
+		pojazd->setScale(2.0f, 2.0f); //zmiana rozmiaru textury
+		//poruszanie obiektow redCar w dó³
 		if (RedCar* redcar = dynamic_cast<RedCar*>(pojazd))
 		{
 			redcar->moveDown(dt);
-			float granicaGora = 600.0f; // Górna granica
-			float granicaDol = 700.0f; // Dolna granica
-
-
-			if (redcar->getPosition().y > granicaDol)
+			if (redcar->opuszczenieMapy())
 			{
-				delete redcar;
-				it = pojazdy.erase(it);
-				this->crateRedCar(); // Tworzenie nowego obiektu RedCar
-				continue; // PrzejdŸ do kolejnej iteracji pêtli
+				
+					if (pojazd == redcar) 
+					{
+					pojazdy.erase(pojazdy.begin()+j);
+					delete redcar;
+					this->createRedCar();
+					break;
+					}
+
+				
+
 			}
 		}
-
-		// Poruszanie obiektów GreenCar w górê
+		
+		//poruszanie obiekow greenCar w góre
 		else if (GreenCar* greencar = dynamic_cast<GreenCar*>(pojazd))
 		{
 			greencar->moveUp(dt);
+			if (greencar->opuszczenieMapy())
+			{
+				
+					if (pojazd == greencar)
+					{
+						pojazdy.erase(pojazdy.begin() + j);
+						delete greencar;
+						this->createGreenCar();
+						break;
+					}
+				
+			}
 		}
 
-		++it;
 	}
-
-	// Poruszanie gracza
+	//poruszanie gracza
 	this->gracz->move(dt);
 	this->gracz->setScale(1.5f, 1.5f); // Zmiana skali gracza
+	
 }
 
 
