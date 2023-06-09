@@ -19,6 +19,61 @@ void Gra::initWindow()
 	this->videoMode.width = 800;
 	this->window = new sf::RenderWindow(this->videoMode, "My window",sf::Style::Titlebar | sf::Style::Close);
 }
+void Gra::renderStartScreen()
+{
+	this->window->clear(sf::Color::Black);
+
+	// Tworzenie obiektu sf::Text
+	sf::Font font;
+	if (!font.loadFromFile("Ourland.ttf"))
+	{
+		std::cout << "Error: Failed to load font" << std::endl;
+	}
+
+	sf::Text startText;
+	startText.setFont(font);
+	startText.setCharacterSize(28);
+	startText.setFillColor(sf::Color::White);
+	startText.setPosition(200.f, 250.f);
+	startText.setString("Nacisnij SPACJE, aby zagrac");
+
+	sf::Text exitText;
+	exitText.setFont(font);
+	exitText.setCharacterSize(24);
+	exitText.setFillColor(sf::Color::White);
+	exitText.setPosition(220.f, 300.f);
+	exitText.setString("Nacisnij Q, aby wyjsc");
+
+	// Rysowanie obiektu sf::Text
+	window->draw(startText);
+	window->draw(exitText);
+	this->window->display();
+}
+void Gra::run()
+{
+	renderStartScreen();
+
+	// Czekaj na naciœniêcie SPACJI, aby rozpocz¹æ
+	while (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	{
+		pollEvents();
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+		{
+			window->close();
+			return;
+		}
+	}
+
+	while (running())
+	{
+		update();
+		render();
+	}
+}
+
+//pauzowanie gry
+bool isPaused = false;
+
 
 //konstruktor destruktor
 Gra::Gra()
@@ -26,13 +81,19 @@ Gra::Gra()
 	this->initVariables();
 	this->initWindow();
 	this->stworzTlo();
+	//tworznie obiektow na planszy
 	this->createPlayer();
 	this->createRedCar();
 	this->createRedCar();
 	this->createGreenCar();
 	this->createGreenCar();
 	this->createBonusCoin();
+	this->createBonusCoin();
 	this->createPrzeszkoda();
+	//zainicjowanie generatora liczb losowych
+	std::srand(static_cast<unsigned int>(std::time(nullptr)));
+	//dodanie licznika
+	zycie = 4;
 }
 
 Gra::~Gra()
@@ -54,6 +115,7 @@ const bool Gra::running() const
 
 
 //metody publiczne
+
 
 void Gra::createPlayer()
 {
@@ -100,8 +162,7 @@ void Gra::createRedCar()
 		y = y1 + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (y2 - y1)));
 		redcar->setPosition(x, y);
 		//granice do kolizji z obiektem redCar
-		//std::cout << x << std::endl;
-		int i = 0;
+			int i = 0;
 			for ( ; i < pojazdy.size(); i++) {
 			
 			if (!redcar->stykaSieZ(pojazdy[i]))
@@ -164,51 +225,30 @@ void Gra::createGreenCar()
 
 	this->pojazdy.push_back(greencar); // Dodaj obiekt RedCar do kontenera
 }
+//losowanie pozycji coin i przeszkoda
 
 void Gra::createBonusCoin()
 {
-	// Zainicjalizuj generator liczb losowych
-	std::srand(static_cast<unsigned int>(std::time(nullptr)));
-	//zmienne opisujace pole generowania obiekow
-	float x1 = 134.0f; // lewy x
-	float y1 = 0.0f; // górny y
-	float x2 = 504.0f; // prawy x
-	float y2 = 537.0f; // dolny y
-	for (int i = 0; i < 2; i++)
-	{
-		// Losuj pozycjê dla GreenCar w obszarze (x1, y1) - (x2, y2)
-		float x = x1 + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (x2 - x1)));
-		float y = y1 + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (y2 - y1)));
+	// Losuj pozycjê dla GreenCar w obszarze (x1, y1) - (x2, y2)
+	float x = x1 + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (x2 - x1)));
+	float y = y1 + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (y2 - y1)));
 
-		bonusCoin* bonuscoin = new bonusCoin();
-		bonuscoin->setPosition(x, y);
-		this->pojazdy.push_back(bonuscoin); // Dodaj obiekt GreenCar do kontenera
-
-	}
+	bonusCoin* bonuscoin = new bonusCoin();
+	bonuscoin->setPosition(x, y);
+	this->pojazdy.push_back(bonuscoin); // Dodaj obiekt GreenCar do kontenera
 }
 
 void Gra::createPrzeszkoda()
 {
-	// Zainicjalizuj generator liczb losowych
-	std::srand(static_cast<unsigned int>(std::time(nullptr)));
-	//zmienne opisujace pole generowania obiekow
-	float x1 = 134.0f; // lewy x
-	float y1 = 0.0f; // górny y
-	float x2 = 504.0f; // prawy x
-	float y2 = 537.0f; // dolny y
-	for (int i = 0; i < 2; i++)
+	// Losuj pozycjê dla GreenCar w obszarze (x1, y1) - (x2, y2)
+	float x = x1 + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (x2 - x1)));
+	float y = y1 + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (y2 - y1)));
+
+	przeszkoda* przeszkoda1 = new przeszkoda();
+	przeszkoda1->setPosition(x, y);
+	if (przeszkoda1 != nullptr) 
 	{
-		// Losuj pozycjê dla GreenCar w obszarze (x1, y1) - (x2, y2)
-		float x = x1 + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (x2 - x1)));
-		float y = y1 + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (y2 - y1)));
-
-		przeszkoda* przeszkoda1 = new przeszkoda();
-		przeszkoda1->setPosition(x, y);
-		if (przeszkoda1 != nullptr) {
 		this->pojazdy.push_back(przeszkoda1); // Dodaj obiekt GreenCar do kontenera
-
-		}
-
 	}
 }
 
@@ -236,6 +276,9 @@ void Gra::pollEvents()
 
 void Gra::update()
 {
+	if (isPaused) {
+		return; // Jeœli gra jest spauzowana, opuœæ metodê update()
+	}
 	float dt = clock.restart().asSeconds(); // Pobierz czas od ostatniej aktualizacji
 	this->pollEvents();
 	//aktualizacja animacji obiektow z kontenera
@@ -244,9 +287,10 @@ void Gra::update()
 		auto pojazd = pojazdy[j];
 		pojazd->setAnimation();
 		pojazd->setScale(2.0f, 2.0f); //zmiana rozmiaru textury
+		//aktualizowanie licznika
+		
 		//poruszanie obiektow redCar w dó³
 		// Aktualizuj granice kolizji
-		
 		if (RedCar* redcar = dynamic_cast<RedCar*>(pojazd))
 		{
 			
@@ -262,17 +306,17 @@ void Gra::update()
 					break;
 					}
 			}
-					// Sprawdzanie kolizji z graczem
+			//obluga kolizji  gracz - redcar
 			if (redcar->getGlobalBounds().intersects(gracz->getGlobalBounds()))
 			{
 				std::cout << "kolizja z redcar" << std::endl;
 				pojazdy.erase(pojazdy.begin() + j);
 				delete redcar;
 				this->createRedCar();
+				zycie--;
 				break;
 			}
 		}
-		
 		//poruszanie obiekow greenCar w góre
 		if (GreenCar* greencar = dynamic_cast<GreenCar*>(pojazd))
 		{
@@ -289,16 +333,51 @@ void Gra::update()
 					}
 				
 			}
-			// Sprawdzanie kolizji z graczem
+			// obluga kolizji gracz - greencar
 			if (greencar->getGlobalBounds().intersects(gracz->getGlobalBounds()))
 			{
 				std::cout << "kolizja z greencar" << std::endl;
 				pojazdy.erase(pojazdy.begin() + j);
 				delete greencar;
 				this->createGreenCar();
+				zycie--;
+				break;
+			}
+		}	
+		//obsluga kolizji gracz - coin
+		if (bonusCoin* bonuscoin = dynamic_cast<bonusCoin*>(pojazd))
+		{
+			if (bonuscoin->getGlobalBounds().intersects(gracz->getGlobalBounds()))
+			{
+				std::cout << "kolizja z coin" << std::endl;
+				pojazdy.erase(pojazdy.begin() + j);
+				delete bonuscoin;
+				this->createBonusCoin();
 				break;
 			}
 		}
+		//obluga kolizji gracz-przeszkoda
+		if (przeszkoda* przeszkoda1 = dynamic_cast<przeszkoda*>(pojazd))
+		{
+			if (przeszkoda1->getGlobalBounds().intersects(gracz->getGlobalBounds()))
+			{
+				std::cout << "kolizja z przeszka" << std::endl;
+				pojazdy.erase(pojazdy.begin() + j);
+				delete przeszkoda1;
+				this->createPrzeszkoda();
+				break;
+			}
+		}
+		
+			if (zycie == 0)
+			{
+			std::cout << "koniec zycie, umierasz" << std::endl;
+			isPaused = true;
+			
+			}
+			
+		
+
 
 	}
 	
@@ -319,11 +398,51 @@ void Gra::render()
 	//draw game objects 
 	//narysowanie t³a
 	this->window->draw(this->spriteTlo);
-	
+	// Tworzenie obiektu sf::Text
+	sf::Font font;
+	if (!font.loadFromFile("Ourland.ttf"))
+	{
+		std::cout << "Error: Failed to load font" << std::endl;
+	}
+	if (isPaused)
+	{
+		// Tworzenie obiektu sf::Text
+		sf::Font font;
+		if (!font.loadFromFile("Ourland.ttf"))
+		{
+			std::cout << "Error: Failed to load font" << std::endl;
+		}
+
+		sf::Text koniecGryText;
+		koniecGryText.setFont(font);
+		koniecGryText.setCharacterSize(48);
+		koniecGryText.setFillColor(sf::Color::Red);
+		koniecGryText.setPosition(300.f, 250.f);
+		koniecGryText.setString("Koniec Gry");
+
+		// Rysowanie obiektu sf::Text
+		window->draw(koniecGryText);
+	}
+	else
+	{
+	sf::Text zycieText;
+	zycieText.setFont(font);
+	zycieText.setCharacterSize(24);
+	zycieText.setFillColor(sf::Color::Black);
+	zycieText.setPosition(10.f, 10.f);
+
+	// Ustawianie tekstu na podstawie wartoœci zmiennej "zycie"
+	zycieText.setString("Zycie: " + std::to_string(zycie));
+
+	// Rysowanie obiektu sf::Text
+	window->draw(zycieText);
+
+
 	// Rysowanie obiektów z kontenera 
 	for (auto pojazd : pojazdy)
 	{
 		window->draw(*pojazd);
+	}
 	}
 
 	this->window->display();

@@ -8,14 +8,17 @@ int main()
     //init game engine
     Gra gra;
 
-
+    
     //game loop
     while(gra.running()) 
     {
+        
         //update
         gra.update();
         // render
         gra.render(); 
+        // Uruchomienie logiki gry
+        gra.run();
 
     }
     

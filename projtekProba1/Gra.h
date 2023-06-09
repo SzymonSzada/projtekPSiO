@@ -20,6 +20,8 @@ class Gra
 {
 private:
 	//zmienne
+	//muzyczka .WAV
+	
 	//tlo
 	sf::Texture textureTlo;
 	sf::Sprite spriteTlo;
@@ -39,8 +41,13 @@ private:
 	Gracz* gracz;
 	//bonusCoin
 	bonusCoin* bonuscoin;
+	float x1 = 134.0f; // lewy x
+    float y1 = 0.0f;   // górny y
+    float x2 = 504.0f; // prawy x
+    float y2 = 537.0f; // dolny y
+	//licznik
+	int zycie;
 	
-	//metody prywatne
 	
 	void createPlayer();
 	void stworzTlo();
@@ -49,10 +56,12 @@ private:
 	void createBonusCoin();
 	void createPrzeszkoda();
 	void pollEvents();
-	//void sprawdzKolizje();
+
 	void initVariables();
 	void initWindow();
+	void renderStartScreen();
 public:
+	void run();
 	 
 	Gra();
 	virtual ~Gra();
