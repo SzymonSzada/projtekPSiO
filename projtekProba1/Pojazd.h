@@ -31,6 +31,7 @@ public:
 	 sf::Vector2f getLewyDolny();
 	 sf::Vector2f getPrawyGorny();
 	 bool zderzenie();
+	 virtual sf::FloatRect getBoundary() const = 0;
 
 };
 

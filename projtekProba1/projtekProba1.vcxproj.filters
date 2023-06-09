@@ -36,7 +36,7 @@
     <ClCompile Include="bonusCoin.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="bonusBlue.cpp">
+    <ClCompile Include="przeszkoda.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,7 +59,7 @@
     <ClInclude Include="bonusCoin.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="bonusBlue.h">
+    <ClInclude Include="przeszkoda.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>

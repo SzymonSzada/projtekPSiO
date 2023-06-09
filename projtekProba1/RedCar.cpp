@@ -28,7 +28,13 @@ bool RedCar::opuszczenieMapy()
 
 sf::FloatRect RedCar::getBoundary() const
 {
-    return boundary;
+    sf::FloatRect bounds;
+    bounds.left = getPosition().x;
+    std::cout << bounds.left << std::endl;
+    bounds.top = getPosition().y;
+    bounds.width = getGlobalBounds().width;
+    bounds.height = getGlobalBounds().height;
+    return bounds;
 }
 
 void RedCar::setAnimation()

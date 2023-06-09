@@ -1,40 +1,23 @@
+#include "przeszkoda.h"
+#include "bonusCoin.h"
 
-#include "GreenCar.h"
 
-
-int GreenCar::getNumFrames()
+int przeszkoda::getNumFrames()
 {
-    return 4;
+    return 8;
 }
 
-int GreenCar::getFrameWidth()
+int przeszkoda::getFrameWidth()
 {
-    return 29;
+    return 22;
 }
 
-int GreenCar::getFrameHeight()
+int przeszkoda::getFrameHeight()
 {
-    return 48;
+    return 15;
 }
 
-bool GreenCar::opuszczenieMapy()
-{
-    if (getPrawyGorny().y <= -48)
-    {
-        return true;
-    }
-    return false;
-}
-sf::FloatRect GreenCar::getBoundary() const
-{
-    sf::FloatRect bounds;
-    bounds.left = getPosition().x;
-    bounds.top = getPosition().y;
-    bounds.width = getGlobalBounds().width;
-    bounds.height = getGlobalBounds().height;
-    return bounds;
-}
-void GreenCar::setAnimation()
+void przeszkoda::setAnimation()
 {
     int frameWidth = getFrameWidth();   // Pobranie szerokoœci klatki
     int numFrames = getNumFrames();     // Pobranie liczby klatek
@@ -47,4 +30,8 @@ void GreenCar::setAnimation()
 
     // Ustawianie odpowiedniej tekstury reprezentuj¹cej aktualn¹ klatkê
     setTextureRect(sf::IntRect(frameWidth * currentFrameIndex, 0, frameWidth, getFrameHeight()));
+}
+sf::FloatRect przeszkoda::getBoundary() const
+{
+    return sf::FloatRect();
 }

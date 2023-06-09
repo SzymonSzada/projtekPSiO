@@ -86,7 +86,12 @@ void Gracz::setAnimation()
 }
 sf::FloatRect Gracz::getBoundary() const
 {
-    return boundary;
+    sf::FloatRect bounds;
+    bounds.left = getPosition().x;
+    bounds.top = getPosition().y;
+    bounds.width = getGlobalBounds().width;
+    bounds.height = getGlobalBounds().height;
+    return bounds;
 }
 
 

@@ -30,3 +30,7 @@ void bonusCoin::setAnimation()
     // Ustawianie odpowiedniej tekstury reprezentuj¹cej aktualn¹ klatkê
     setTextureRect(sf::IntRect(frameWidth * currentFrameIndex, 0, frameWidth, getFrameHeight()));
 }
+sf::FloatRect bonusCoin::getBoundary() const
+{
+    return boundary;
+}

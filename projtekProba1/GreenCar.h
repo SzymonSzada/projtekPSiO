@@ -10,5 +10,6 @@ public:
 	int getFrameWidth() override;
 	int getFrameHeight() override;
 	bool opuszczenieMapy();
+	sf::FloatRect getBoundary() const override;
 };
 

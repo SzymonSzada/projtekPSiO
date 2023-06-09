@@ -47,8 +47,9 @@ private:
 	void createRedCar();
 	void createGreenCar();
 	void createBonusCoin();
+	void createPrzeszkoda();
 	void pollEvents();
-	void sprawdzKolizje();
+	//void sprawdzKolizje();
 	void initVariables();
 	void initWindow();
 public:

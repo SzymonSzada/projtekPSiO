@@ -5,6 +5,7 @@
 #include "RedCar.h"
 #include "GreenCar.h"
 #include "bonusCoin.h"
+#include "przeszkoda.h"
 
 //metody prywatne
 void Gra::initVariables()
@@ -31,6 +32,7 @@ Gra::Gra()
 	this->createGreenCar();
 	this->createGreenCar();
 	this->createBonusCoin();
+	this->createPrzeszkoda();
 }
 
 Gra::~Gra()
@@ -39,7 +41,7 @@ Gra::~Gra()
 	//zwalnianie pamieci
 	for (auto pojazd : pojazdy)
 	{
-		delete pojazd;
+		//delete pojazd;
 	}
 }
 //Accessors
@@ -62,7 +64,7 @@ void Gra::createPlayer()
 	this->gracz->setBounds(134.0f, 0.0f, 504.0f, 537.0f);
 	//ustawiam pozycje
 	this->gracz->setPosition(368.0f, 450.0f);
-	
+	this->pojazdy.push_back(gracz);
 }
 
 void Gra::stworzTlo()
@@ -84,7 +86,7 @@ void Gra::createRedCar()
 	// Zainicjalizuj generator liczb losowych
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 	//zmienne opisujace pole generowania obiekow
-	float x1 = 163.4f; // lewy x
+	float x1 = 163.4f; // lewy x 
 	float y1 = -700.0f; // górny y //-700 by³o 
 	float x2 = 340.85f; // prawy x
 	float y2 = 30.0f; // dolny y //30 by³o
@@ -185,6 +187,33 @@ void Gra::createBonusCoin()
 	}
 }
 
+void Gra::createPrzeszkoda()
+{
+	// Zainicjalizuj generator liczb losowych
+	std::srand(static_cast<unsigned int>(std::time(nullptr)));
+	//zmienne opisujace pole generowania obiekow
+	float x1 = 134.0f; // lewy x
+	float y1 = 0.0f; // górny y
+	float x2 = 504.0f; // prawy x
+	float y2 = 537.0f; // dolny y
+	for (int i = 0; i < 2; i++)
+	{
+		// Losuj pozycjê dla GreenCar w obszarze (x1, y1) - (x2, y2)
+		float x = x1 + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (x2 - x1)));
+		float y = y1 + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / (y2 - y1)));
+
+		przeszkoda* przeszkoda1 = new przeszkoda();
+		przeszkoda1->setPosition(x, y);
+		if (przeszkoda1 != nullptr) {
+		this->pojazdy.push_back(przeszkoda1); // Dodaj obiekt GreenCar do kontenera
+
+		}
+
+	}
+}
+
+
+
 
 void Gra::pollEvents()
 {
@@ -204,29 +233,6 @@ void Gra::pollEvents()
 		}
 	}
 }
-
-void Gra::sprawdzKolizje()
-{
-	// Pobierz granice kolizji gracza
-	sf::FloatRect graczBounds = gracz->getBoundary();
-
-	// Iteruj przez wszystkie obiekty RedCar i sprawdŸ kolizje z graczem
-	for (auto& pojazd : pojazdy)
-	{
-		// Pobierz granice kolizji RedCar
-		sf::FloatRect redcarBounds = redcar->getBoundary();
-
-		// SprawdŸ kolizjê miêdzy graczem a RedCarem
-		if (graczBounds.intersects(redcarBounds))
-		{
-			std::cout << "kolizja redcar gracz" << std::endl;
-
-			// Mo¿esz równie¿ przerwaæ pêtlê, jeœli interesuje Ciê tylko pierwsza kolizja
-			break;
-		}
-	}
-}
-
 
 void Gra::update()
 {
@@ -255,14 +261,20 @@ void Gra::update()
 					this->createRedCar();
 					break;
 					}
-
-				
-
+			}
+					// Sprawdzanie kolizji z graczem
+			if (redcar->getGlobalBounds().intersects(gracz->getGlobalBounds()))
+			{
+				std::cout << "kolizja z redcar" << std::endl;
+				pojazdy.erase(pojazdy.begin() + j);
+				delete redcar;
+				this->createRedCar();
+				break;
 			}
 		}
 		
 		//poruszanie obiekow greenCar w góre
-		else if (GreenCar* greencar = dynamic_cast<GreenCar*>(pojazd))
+		if (GreenCar* greencar = dynamic_cast<GreenCar*>(pojazd))
 		{
 			greencar->moveUp(dt);
 			if (greencar->opuszczenieMapy())
@@ -277,6 +289,15 @@ void Gra::update()
 					}
 				
 			}
+			// Sprawdzanie kolizji z graczem
+			if (greencar->getGlobalBounds().intersects(gracz->getGlobalBounds()))
+			{
+				std::cout << "kolizja z greencar" << std::endl;
+				pojazdy.erase(pojazdy.begin() + j);
+				delete greencar;
+				this->createGreenCar();
+				break;
+			}
 		}
 
 	}
@@ -285,8 +306,7 @@ void Gra::update()
 	this->gracz->move(dt);
 	this->gracz->setScale(1.5f, 1.5f); // Zmiana skali gracza
 
-	// Sprawdzanie kolizji
-	sprawdzKolizje();
+	
 }
 
 
